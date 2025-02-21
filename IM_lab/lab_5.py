@@ -19,16 +19,20 @@ def SMO_Erlang(TM, Lambd, Mu, N):
         T1 = T1 + t
         t = 0
         if T1 > Tm:
-            for i_e in range(len(Queue)):
-                MassDevice.sort()
-                for i in range(len(MassDevice)):
-                    if Queue[0] < MassDevice[i] < Tm:
-                        WT = WT + (MassDevice[i] - Queue[0])
+            flag = 0
+            for j in range(len(Queue)):
+                if flag == 0:
+                    MassDevice.sort()
+                    if Queue[0] < MassDevice[0] < Tm:
+                        WT = WT + (MassDevice[0] - Queue[0])
                         t = -(1 / mu) * m.log(1 - np.random.rand(1)[0])
-                        MassDevice[i] = MassDevice[i] + t
+                        MassDevice[0] = MassDevice[0] + t
                         t = 0
                         Queue.pop(0)
-                        break
+                    else:
+                        flag = 1
+                else:
+                    break
             if len(Queue) > 0:
                 for i in range(len(Queue)):
                     WT = WT + (Tm - Queue[i])
@@ -41,26 +45,21 @@ def SMO_Erlang(TM, Lambd, Mu, N):
             if flag == 0:
                 MassDevice.sort()
                 if len(Queue) == 1:
-                    for i in range(len(MassDevice)):
-                        if Queue[0] > MassDevice[i]:
-                            MassDevice[i] = Queue[0]
-                            t = -(1 / mu) * m.log(1 - np.random.rand(1)[0])
-                            MassDevice[i] = MassDevice[i] + t
-                            t = 0
-                            Queue.pop(0)
-                            break
+                    if Queue[0] > MassDevice[0]:
+                        MassDevice[0] = Queue[0]
+                        t = -(1 / mu) * m.log(1 - np.random.rand(1)[0])
+                        MassDevice[0] = MassDevice[0] + t
+                        t = 0
+                        Queue.pop(0)
                 else:
-                    for i in range(len(MassDevice)):
-                        if Queue[0] < MassDevice[i] < Queue[len(Queue)-1]:
-                            WT = WT + (MassDevice[i] - Queue[0])
-                            t = -(1 / mu) * m.log(1 - np.random.rand(1)[0])
-                            MassDevice[i] = MassDevice[i] + t
-                            t = 0
-                            Queue.pop(0)
-                            break
-                        else:
-                            flag = 1
-                            break
+                    if Queue[0] < MassDevice[0] < Queue[len(Queue)-1]:
+                        WT = WT + (MassDevice[0] - Queue[0])
+                        t = -(1 / mu) * m.log(1 - np.random.rand(1)[0])
+                        MassDevice[0] = MassDevice[0] + t
+                        t = 0
+                        Queue.pop(0)
+                    else:
+                        flag = 1
             else:
                 break
     M_WT = (1/EventCount)*WT
