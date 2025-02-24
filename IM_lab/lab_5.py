@@ -1,7 +1,6 @@
 import math as m
 import numpy as np
 
-
 def SMO_Erlang(TM, Lambd, Mu, N):
     Tm = TM
     lambd = Lambd
@@ -71,6 +70,16 @@ mu = float(input())
 n = int(input())
 #2,1,3;
 
+Mass_Wt = []
 Wt = 0
-Wt = SMO_Erlang(Tm, lambd, mu, n)
-print(Wt)
+N = 1000
+Sum_Wt = 0
+
+for i in range(N+1):
+    Wt = SMO_Erlang(Tm, lambd, mu, n)
+    Mass_Wt.append(Wt)
+    Sum_Wt = Sum_Wt + Wt
+
+EstemetM_Wt = (1/N)*Sum_Wt
+print(Mass_Wt)
+print("Оценка среднего времени простоя заявки в очереди: ", EstemetM_Wt)
