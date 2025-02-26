@@ -47,7 +47,10 @@ def SMO_Erlang(Tm, lambd, mu, n):
             else:
                 Queue.append(T1)
                 EventCount = EventCount + 1
-    M_WT = (1/EventCount)*WT
+    if EventCount > 0:
+        M_WT = (1/EventCount)*WT
+    else:
+        M_WT = 0
     return M_WT
 
 TM = int(input())
